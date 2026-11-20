@@ -1,0 +1,46 @@
+# Cấu hình chuẩn cho Chủ đề 11: Out-of-Distribution Detection (OOD)
+# So sánh 3 phương pháp Post-hoc: MSP vs. Energy vs. Deep kNN qua 3 random seeds
+
+experiment_name: "cifar10_posthoc_ood_benchmark"
+seeds: [0, 1, 2]
+
+dataset:
+  id_name: "cifar10"
+  num_classes: 10
+  image_size: 32
+  # Thống kê chuẩn hóa kênh màu của tập Train ID (CIFAR-10)
+  # Mọi tập OOD bắt buộc chuẩn hóa theo đúng mean & std này
+  normalize_mean: [0.4914, 0.4822, 0.4465]
+  normalize_std: [0.2470, 0.2435, 0.2616]
+  near_ood:
+    - "cifar100"
+  far_ood:
+    - "svhn"
+    - "mnist"
+    - "dtd"
+  data_root: "./data/raw"
+  cache_dir: "./data/extracted_cache"
+
+backbone:
+  arch: "resnet18_cifar"
+  feature_dim: 512
+  epochs: 50
+  batch_size: 128
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 0.0005
+
+methods:
+  msp:
+    enabled: true
+  energy:
+    enabled: true
+    temperature: 1.0
+  knn:
+    enabled: true
+    k: 50
+    normalize_l2: true
+    sampling_ratio: 1.0  # 1.0 = dùng 100% Feature Bank (50,000 mẫu ID Train)
+
+output:
+  results_dir: "./results"

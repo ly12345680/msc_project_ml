@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Datasets, Checkpoints, and Extracted Feature Caches (shared via Google Drive)
+data/raw/
+data/extracted_cache/
+checkpoints/
+*.pth
+*.pt
+*.npz
+*.npy
+
+# Experiment outputs & logs
+results/*.csv
+results/*.json
+results/plots/*.png
+results/plots/*.pdf
+logs/
+
+# macOS / IDE / Office lock files
+.DS_Store
+.vscode/
+.idea/
+~$*.docx
+.~lock.*

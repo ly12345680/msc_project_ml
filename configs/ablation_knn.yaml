@@ -1,0 +1,35 @@
+# Cấu hình Ablation Study chuyên sâu cho nhánh Deep kNN (Sun et al., ICML 2022)
+# Đáp ứng Mục 4.1 (Bước 5) và Mục 5.2 (30% điểm Thực nghiệm & Phân tích)
+
+experiment_name: "deep_knn_ablation_study"
+seeds: [0, 1, 2]
+cache_dir: "./data/extracted_cache"
+results_dir: "./results"
+
+id_dataset: "cifar10"
+ood_datasets:
+  near_ood:
+    - "cifar100"
+  far_ood:
+    - "svhn"
+    - "mnist"
+    - "dtd"
+
+ablations:
+  # Ablation 1: Khảo sát ảnh hưởng của số láng giềng gần nhất k
+  k_sweep:
+    k_values: [1, 5, 10, 20, 50, 100, 200, 500]
+    normalize_l2: true
+    sampling_ratio: 1.0
+
+  # Ablation 2: Vai trò quyết định của chuẩn hóa L2 (With vs. Without L2-norm)
+  l2_norm_comparison:
+    k: 50
+    normalize_l2_options: [true, false]
+    sampling_ratio: 1.0
+
+  # Ablation 3: Tỷ lệ lấy mẫu Feature Bank (alpha) vs. Tốc độ truy vấn (Latency)
+  sampling_ratio_sweep:
+    k: 50
+    normalize_l2: true
+    ratios: [0.01, 0.05, 0.10, 0.25, 0.50, 1.00]
